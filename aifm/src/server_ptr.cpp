@@ -4,20 +4,24 @@ extern "C" {
 #include <base/limits.h>
 #include <base/stddef.h>
 }
-
+#include <numa.h>
 #include "object.hpp"
 #include "server_ptr.hpp"
 
 namespace far_memory {
 
 ServerPtr::ServerPtr(uint32_t param_len, uint8_t *params) {
-  uint64_t size;
+  
   BUG_ON(param_len != sizeof(decltype(size)));
   size = *(reinterpret_cast<decltype(size) *>(params));
-  buf_.reset(reinterpret_cast<uint8_t *>(malloc(size)));
+  //buf_.reset(reinterpret_cast<uint8_t *>(malloc(size))); // Commented and re-written in the next line by ML
+  ServerPtrAddr = reinterpret_cast<uint8_t *>(numa_alloc_onnode(size, 1));
+  buf_.reset(ServerPtrAddr);
 }
 
-ServerPtr::~ServerPtr() {}
+ServerPtr::~ServerPtr() {
+  numa_free(ServerPtrAddr, size);
+}
 
 void ServerPtr::read_object(uint8_t obj_id_len, const uint8_t *obj_id,
                             uint16_t *data_len, uint8_t *data_buf) {

@@ -11,6 +11,8 @@ private:
   friend class ServerPtrFactory;
 
 public:
+  uint8_t *ServerPtrAddr;
+  uint64_t size;
   ServerPtr(uint32_t param_len, uint8_t *params);
   ~ServerPtr();
   void read_object(uint8_t obj_id_len, const uint8_t *obj_id,

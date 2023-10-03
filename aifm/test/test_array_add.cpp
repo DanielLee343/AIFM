@@ -14,11 +14,11 @@ extern "C" {
 using namespace far_memory;
 using namespace std;
 
-constexpr uint64_t kCacheSize = (128ULL << 20);
-constexpr uint64_t kFarMemSize = (4ULL << 30);
+constexpr uint64_t kCacheSize = (128ULL << 20); // local memory pool size
+constexpr uint64_t kFarMemSize = (4ULL << 30); // memory pool size in remote NUMA node, adjust to 8ULL if needed
 constexpr uint32_t kNumGCThreads = 12;
-constexpr uint32_t kNumEntries =
-    (16ULL << 20); // So the array size is larger than the local cache size.
+constexpr uint32_t kNumEntries = 
+    (16ULL << 20); // So the array size is larger than the local cache size, this is to adjust workload size, twick it larger, eg, 32ULL
 
 uint64_t raw_array_A[kNumEntries];
 uint64_t raw_array_B[kNumEntries];

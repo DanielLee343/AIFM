@@ -114,7 +114,7 @@ dep = $(obj:.o=.d)
 tcp_device_server_src = src/tcp_device_server.cpp
 tcp_device_server_obj = $(tcp_device_server_src:.cpp=.o)
 
-override CXXFLAGS += -std=gnu++2a -fconcepts -Wno-unused-function
+override CXXFLAGS += -std=gnu++2a -fconcepts -Wno-unused-function -g
 CXXFLAGS := $(filter-out -std=gnu++17,$(CXXFLAGS))
 override LDFLAGS += -lnuma
 
